@@ -32,7 +32,7 @@ const CATS_DATA = [
         gender: 'Macho',
         status: 'Vacunado y Esterilizado',
         description: 'Sociable, comilón y convive bien con otros gatos.',
-        iimage: require('../../../assets/Gato3.jpg'),
+        image: require('../../../assets/Gato3.jpg'),
     },
     {
         id: '4',
@@ -93,7 +93,7 @@ const CatsScreen = () => {
 
                 <TouchableOpacity 
                     style={styles.adoptButton}
-                    onPress={() => navigation.navigate('Adoption', { cat: item })}
+                    onPress={() => navigation.navigate('AdoptionForm', { cat: item })}
                     activeOpacity={0.7}
                 >
                     <FontAwesome5 name="paw" size={12} color="#1b1b1b" style={{ marginRight: 6 }} />

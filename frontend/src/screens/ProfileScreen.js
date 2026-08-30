@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert, SafeAreaView} from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert, SafeAreaView } from 'react-native';
 import { UserContext } from '../context/UserContext';
-import { Ionicons} from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 const ProfileScreen = () => {
@@ -26,7 +26,7 @@ const ProfileScreen = () => {
                     text: 'Cerrar Sesión',
                     style: 'destructive',
                     onPress: () => {
-                        setUser(null); // Limpiamos el usuario
+                        setUser(null); 
                         navigation.reset({
                             index: 0,
                             routes: [{ name: 'Login' }],
@@ -47,7 +47,6 @@ const ProfileScreen = () => {
                         <View style={styles.onlineBadge} />
                     </View>
 
-                    {/* Nombre obtenido del Login */}
                     <Text style={styles.usernameText}>{displayUsername}</Text>
                     <Text style={styles.roleText}>Miembro Adoptante Activo</Text>
                 </View>
@@ -56,8 +55,8 @@ const ProfileScreen = () => {
                     <Text style={styles.cardTitle}>Información de Contacto</Text>
 
                     <View style={styles.infoRow}>
-                        <View style={[styles.iconCircle, { backgroundColor: '#C9E4A6' }]}>
-                            <Ionicons name="mail" size={18} color="#1b1b1b" />
+                        <View style={styles.iconCircle}>
+                            <Ionicons name="mail-outline" size={20} color="#1F2937" />
                         </View>
                         <View style={styles.infoTextContainer}>
                             <Text style={styles.infoLabel}>Correo Electrónico</Text>
@@ -66,8 +65,8 @@ const ProfileScreen = () => {
                     </View>
 
                     <View style={styles.infoRow}>
-                        <View style={[styles.iconCircle, { backgroundColor: '#F7B7C4' }]}>
-                            <Ionicons name="call" size={18} color="#1b1b1b" />
+                        <View style={styles.iconCircle}>
+                            <Ionicons name="call-outline" size={20} color="#1F2937" />
                         </View>
                         <View style={styles.infoTextContainer}>
                             <Text style={styles.infoLabel}>Teléfono / WhatsApp</Text>
@@ -76,8 +75,8 @@ const ProfileScreen = () => {
                     </View>
 
                     <View style={styles.infoRow}>
-                        <View style={[styles.iconCircle, { backgroundColor: '#7FB4E0' }]}>
-                            <Ionicons name="location" size={18} color="#1b1b1b" />
+                        <View style={styles.iconCircle}>
+                            <Ionicons name="location-outline" size={20} color="#1F2937" />
                         </View>
                         <View style={styles.infoTextContainer}>
                             <Text style={styles.infoLabel}>Ubicación</Text>
@@ -86,8 +85,7 @@ const ProfileScreen = () => {
                     </View>
                 </View>
 
-                {/* Botón de Cerrar Sesión */}
-                <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+                <TouchableOpacity style={styles.logoutButton} onPress={handleLogout} activeOpacity={0.8}>
                     <Ionicons name="log-out-outline" size={22} color="#FFFFFF" style={{ marginRight: 8 }} />
                     <Text style={styles.logoutButtonText}>Cerrar Sesión</Text>
                 </TouchableOpacity>
@@ -100,112 +98,120 @@ const ProfileScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFF3C9', // Amarillo suave de la paleta
+        backgroundColor: '#FFF3C9', 
     },
     scrollContent: {
-        padding: 16,
+        padding: 20,
+        paddingTop: 30,
         paddingBottom: 40,
     },
     profileHeader: {
         backgroundColor: '#FFFFFF',
-        borderRadius: 20,
+        borderRadius: 24, 
         alignItems: 'center',
-        paddingVertical: 24,
-        paddingHorizontal: 16,
-        marginBottom: 16,
-        borderWidth: 1.5,
-        borderColor: '#A3D9C9', // Menta
-        elevation: 2,
+        paddingVertical: 30,
+        paddingHorizontal: 20,
+        marginBottom: 20,
+        elevation: 3, 
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.08,
-        shadowRadius: 4,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.06,
+        shadowRadius: 10,
     },
     avatarWrapper: {
         position: 'relative',
-        marginBottom: 12,
+        marginBottom: 16,
     },
     avatar: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
-        borderWidth: 3,
-        borderColor: '#A3D9C9',
+        width: 110,
+        height: 110,
+        borderRadius: 55,
+        borderWidth: 4,
+        borderColor: '#A3D9C9', 
     },
     onlineBadge: {
         position: 'absolute',
         bottom: 2,
-        right: 4,
-        width: 18,
-        height: 18,
-        borderRadius: 9,
-        backgroundColor: '#C9E4A6', // Verde
-        borderWidth: 2,
+        right: 6,
+        width: 22,
+        height: 22,
+        borderRadius: 11,
+        backgroundColor: '#A3D9C9', 
+        borderWidth: 3,
         borderColor: '#FFFFFF',
     },
     usernameText: {
         fontSize: 24,
-        fontWeight: 'bold',
-        color: '#1b1b1b',
+        fontWeight: '800',
+        color: '#1F2937', 
+        marginBottom: 4,
     },
     roleText: {
-        fontSize: 14,
-        color: '#7FB4E0', // Azul
+        fontSize: 15,
+        color: '#73BCA6', 
         fontWeight: '600',
-        marginTop: 2,
     },
     card: {
         backgroundColor: '#FFFFFF',
-        borderRadius: 16,
-        padding: 18,
-        marginBottom: 14,
-        borderWidth: 1,
-        borderColor: '#E2E8F0',
+        borderRadius: 24,
+        padding: 22,
+        marginBottom: 24,
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.06,
+        shadowRadius: 10,
     },
     cardTitle: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#1b1b1b',
-        marginBottom: 14,
+        fontSize: 18,
+        fontWeight: '700',
+        color: '#1F2937',
+        marginBottom: 20,
     },
     infoRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 12,
+        marginBottom: 18,
     },
     iconCircle: {
-        width: 38,
-        height: 38,
-        borderRadius: 19,
+        width: 46,
+        height: 46,
+        borderRadius: 23,
+        backgroundColor: '#E6F4F1', 
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: 12,
+        marginRight: 16,
     },
     infoTextContainer: {
         flex: 1,
+        justifyContent: 'center',
     },
     infoLabel: {
-        fontSize: 12,
-        color: '#888',
+        fontSize: 13,
+        color: '#9CA3AF',
+        marginBottom: 3,
     },
     infoValue: {
         fontSize: 15,
-        color: '#1b1b1b',
-        fontWeight: '500',
+        color: '#374151',
+        fontWeight: '600',
     },
     logoutButton: {
-        backgroundColor: '#E53E3E',
+        backgroundColor: '#EF4444', 
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: 14,
-        borderRadius: 12,
-        marginTop: 6,
+        paddingVertical: 16,
+        borderRadius: 16,
         elevation: 2,
+        shadowColor: '#EF4444',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
     },
     logoutButtonText: {
         color: '#FFFFFF',
-        fontSize: 16,
+        fontSize: 17,
         fontWeight: 'bold',
     },
 });
