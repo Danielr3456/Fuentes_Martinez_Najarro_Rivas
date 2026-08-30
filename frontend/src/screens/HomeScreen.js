@@ -2,12 +2,20 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
+    const navigation = useNavigation();
+
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
             
-            <Text style={styles.mainTitle}>Huellitas</Text>
+            <View style={styles.headerContainer}>
+                <Text style={styles.mainTitle}>Huellitas</Text>
+                <TouchableOpacity style={styles.profileBox} onPress={() => navigation.navigate('Profile')}activeOpacity={0.7}>
+                <Ionicons name="person" size={26} color="#1b1b1b" />
+                </TouchableOpacity>
+            </View>
 
             <View style={styles.card}>
                 <Image 
@@ -17,7 +25,7 @@ const HomeScreen = () => {
                 <View style={styles.cardContent}>
                     <Text style={[styles.cardTitle, { color: '#7FB4E0' }]}>BIENVENIDO!</Text>
                     <Text style={styles.cardText}> ¿Buscas un nuevo compañero?</Text>
-                    <TouchableOpacity style={[styles.button, { backgroundColor: '#7FB4E0' }]}>
+                    <TouchableOpacity style={[styles.button, { backgroundColor: '#7FB4E0' }]} onPress={() => navigation.navigate('Cats')}>
                         <MaterialCommunityIcons name="magnify" size={20} color="#fff" style={styles.buttonIcon} />
                         <Text style={styles.buttonText}>Explorar Mascotas</Text>
                     </TouchableOpacity>
@@ -65,6 +73,34 @@ const styles = StyleSheet.create({
         paddingTop: 60, 
         paddingBottom: 40,
     },
+
+
+    headerContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        height: 60,
+        marginHorizontal: 20,
+        marginTop: 15,
+        marginBottom: 10,
+    },
+
+
+     profileBox: {
+        position: 'absolute',
+        right: 0,
+        backgroundColor: '#FFFFFF', // Fondo blanco limpio
+        width: 48,
+        height: 48,
+        borderRadius: 14,          // Esquinas redondeadas estilo cajita
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: '#A3D9C9',    // Borde menta de tu paleta
+    },
+
+
     mainTitle: {
         fontSize: 34,
         fontWeight: 'bold',

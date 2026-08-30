@@ -3,6 +3,8 @@ import { UserProvider } from './frontend/src/context/UserContext';
 import { NavigationContainer } from '@react-navigation/native';
 import LoginScreen from './frontend/src/screens/LoginScreen';
 import HomeScreen from './frontend/src/screens/HomeScreen';
+import ProfileScreen from './frontend/src/screens/ProfileScreen';
+import CatsScreen from './frontend/src/screens/CatsScreen';
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -12,6 +14,8 @@ const App = () => {
                 <Stack.Navigator initialRouteName='Login'>
                     <Stack.Screen name='Login' component={LoginScreen}/>
                     <Stack.Screen name='Home' component={HomeScreen}/>
+                    <Stack.Screen name='Profile' component={ProfileScreen}/>
+                    <Stack.Screen name='Cats' component={CatsScreen}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </UserProvider>
