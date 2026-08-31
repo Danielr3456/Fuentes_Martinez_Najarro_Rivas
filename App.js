@@ -8,6 +8,8 @@ import CatsScreen from './frontend/src/screens/CatsScreen';
 import SettingsScreen from './frontend/src/screens/SettingsScreen';
 import AdoptionFormScreen from './frontend/src/screens/AdoptionFormScreen';
 import InformationScreen from './frontend/src/screens/InformationScreen';
+import DonationsScreen from './frontend/src/screens/DonationsScreen';
+
 const Stack = createNativeStackNavigator();
 const App = () => {
     return (
@@ -21,6 +23,7 @@ const App = () => {
                     <Stack.Screen name='Settings' component={SettingsScreen}/>
                     <Stack.Screen name='AdoptionForm' component={AdoptionFormScreen}/>
                     <Stack.Screen name='Information' component={InformationScreen}/>
+                    <Stack.Screen name="Donations" component={DonationsScreen} />
                 </Stack.Navigator>
             </NavigationContainer>
         </UserProvider>

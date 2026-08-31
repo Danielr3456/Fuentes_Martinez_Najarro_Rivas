@@ -62,10 +62,14 @@ const HomeScreen = () => {
 
             <View style={styles.card}>
 
-                <View style={styles.cardContent}>
+               <View style={styles.cardContent}>
                     <Text style={[styles.cardTitle, { color: '#C9E4A6' }]}>DONACIONES</Text>
                     <Text style={styles.cardText}> Haz una diferencia: Apoya a las mascotas sin hogar</Text>
-                    <TouchableOpacity style={[styles.button, { backgroundColor: '#C9E4A6' }]}>
+                    
+                    <TouchableOpacity 
+                        style={[styles.button, { backgroundColor: '#C9E4A6' }]}
+                        onPress={() => navigation.navigate('Donations')} 
+                    >
                         <MaterialCommunityIcons name="gift-outline" size={20} color="#fff" style={styles.buttonIcon} />
                         <Text style={styles.buttonText}>Deseo apoyar</Text>
                     </TouchableOpacity>
