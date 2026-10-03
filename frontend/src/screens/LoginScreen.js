@@ -1,61 +1,69 @@
 import { useContext, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { UserContext } from '../context/UserContext';
-import { useNavigation } from '@react-navigation/native';
 
 const LoginScreen = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [isFocused1, setIsFocused1] = useState();
-    const [isFocused2, setIsFocused2] = useState();
-    const {setUser} = useContext(UserContext);
-    const navigation = useNavigation();
+    const [focused, setFocused] = useState(null); // campo con foco: 'user' | 'pass'
+    const { login, colors } = useContext(UserContext);
 
     const handleLogin = () => {
-        if(!username || !password) {
-            //si falta algun campo
+        if (!username || !password) {
+            // si falta algun campo
             alert("Completa todos los campos");
             return;
         }
 
-        setUser({username});
-        navigation.navigate('Home');
-    }
+        // Guarda la sesión en AsyncStorage; la guarda de ruta en App.js muestra Home
+        login(username);
+    };
+
+    const inputStyle = (name) => [
+        styles.input,
+        {
+            backgroundColor: colors.input,
+            color: colors.text,
+            borderColor: focused === name ? colors.accent : colors.border,
+            borderWidth: focused === name ? 2 : 1,
+        },
+    ];
+
     return (
-        <View style={styles.container}>
-            <Image source={require('../../../assets/logo.jpg')} style={styles.logo}/>
-            <Text style={styles.title}>
-                Iniciar Sesión
-            </Text>
+        <View style={[styles.container, { backgroundColor: colors.bg }]}>
+            <View style={[styles.logoCircle, { backgroundColor: colors.primary }]}>
+                <Ionicons name="shirt" size={56} color="#FFFFFF" />
+            </View>
+            <Text style={[styles.brand, { color: colors.text }]}>Moda Store</Text>
+            <Text style={[styles.title, { color: colors.accent }]}>Iniciar Sesión</Text>
 
             <TextInput
-                style={[styles.input, {
-                        borderWidth: isFocused1 ? 3 : 1
-                }]}
+                style={inputStyle('user')}
                 onChangeText={setUsername}
                 value={username}
                 placeholder="Nombre de usuario"
-                onFocus={()=> setIsFocused1(true)}//se pone enfoque sobre la caja de texto
-                onBlur={() => setIsFocused1(false)}//no se pone en enfoque al no estar en la caja de texto
-
+                placeholderTextColor={colors.subtext}
+                autoCapitalize="none"
+                onFocus={() => setFocused('user')}
+                onBlur={() => setFocused(null)}
             />
 
             <TextInput
-                style={[styles.input, {
-                    borderWidth: isFocused2 ? 3 : 1
-                }]}
+                style={inputStyle('pass')}
                 onChangeText={setPassword}
                 value={password}
                 placeholder="Contraseña"
+                placeholderTextColor={colors.subtext}
                 secureTextEntry
-                onFocus={()=> setIsFocused2(true)}//se pone enfoque sobre la caja de texto
-                onBlur={() => setIsFocused2(false)}//no se pone en enfoque al no estar en la caja de texto
+                onFocus={() => setFocused('pass')}
+                onBlur={() => setFocused(null)}
             />
-            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+
+            <TouchableOpacity style={[styles.button, { backgroundColor: colors.primary }]} onPress={handleLogin}>
                 <Text style={styles.buttonText}>Ingresar</Text>
             </TouchableOpacity>
-
         </View>
     );
 };
@@ -63,52 +71,50 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
-        paddingTop: 150,
-        backgroundColor: '#fff'
-
+        padding: 24,
+        justifyContent: 'center',
     },
-
-    title: {
-        fontSize: 30,
-        margin: 20,
-        textAlign: 'center',
+    logoCircle: {
+        width: 110,
+        height: 110,
+        borderRadius: 55,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    brand: {
+        fontSize: 32,
         fontWeight: 'bold',
-        color: '#A3D9C9'
+        textAlign: 'center',
+        marginTop: 16,
     },
-
+    title: {
+        fontSize: 18,
+        fontWeight: '600',
+        textAlign: 'center',
+        marginBottom: 24,
+    },
     input: {
-    height: 50,
-    borderColor: '#A3D9C9',
-    borderWidth: 1,
-    borderRadius: 10,
-    margin: 10,
-    padding: 10,
-    width: '100%',
-    backgroundColor: '#fff',
-    fontSize: 18,
-    alignSelf: 'center'
-    },
-    logo:{
-        width: 120,
-        height: 120,
-        borderRadius: 160,
-        alignSelf: 'center'
+        height: 50,
+        borderRadius: 12,
+        marginVertical: 8,
+        paddingHorizontal: 14,
+        fontSize: 17,
+        width: '100%',
     },
     button: {
-    width: '100%',
-    backgroundColor: '#C9E4A6',
-    borderRadius: 10,
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10
-},
-buttonText: {
-    color: '#1b1b1b',
-    fontSize: 18,
-    fontWeight: 'bold',
-},
+        width: '100%',
+        borderRadius: 12,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 16,
+    },
+    buttonText: {
+        color: '#FFFFFF',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
 });
 
 export default LoginScreen;

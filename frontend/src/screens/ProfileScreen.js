@@ -1,15 +1,14 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, SafeAreaView } from 'react-native';
 import { UserContext } from '../context/UserContext';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
 
 const ProfileScreen = () => {
-    const { user, setUser } = useContext(UserContext);
-    const navigation = useNavigation();
+    const { user, logout, colors } = useContext(UserContext);
 
-    const displayUsername = user?.username || 'Usuario Invitado';
+    const displayUsername = user?.username || 'Usuario';
 
+    // Datos de contacto simulados
     const STATIC_DATA = {
         email: `${displayUsername.toLowerCase().replace(/\s+/g, '')}@gmail.com`,
         phone: '7458-9210',
@@ -17,72 +16,46 @@ const ProfileScreen = () => {
     };
 
     const handleLogout = () => {
-        Alert.alert(
-            'Cerrar Sesión',
-            '¿Deseas salir de tu cuenta?',
-            [
-                { text: 'Cancelar', style: 'cancel' },
-                {
-                    text: 'Cerrar Sesión',
-                    style: 'destructive',
-                    onPress: () => {
-                        setUser(null); 
-                        navigation.reset({
-                            index: 0,
-                            routes: [{ name: 'Login' }],
-                        });
-                    },
-                },
-            ]
-        );
+        Alert.alert('Cerrar Sesión', '¿Deseas salir de tu cuenta?', [
+            { text: 'Cancelar', style: 'cancel' },
+            {
+                text: 'Cerrar Sesión',
+                style: 'destructive',
+                // logout limpia AsyncStorage; la guarda de ruta regresa a Login
+                onPress: () => logout(),
+            },
+        ]);
     };
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-                
-                <View style={styles.profileHeader}>
-                    <View style={styles.avatarWrapper}>
-                        <Image source={require('../../../assets/PerfilGatos.png')} style={styles.avatar} />
-                        <View style={styles.onlineBadge} />
-                    </View>
+    const InfoRow = ({ icon, label, value }) => (
+        <View style={styles.infoRow}>
+            <View style={[styles.iconCircle, { backgroundColor: colors.soft }]}>
+                <Ionicons name={icon} size={20} color={colors.primary} />
+            </View>
+            <View style={{ flex: 1 }}>
+                <Text style={[styles.infoLabel, { color: colors.subtext }]}>{label}</Text>
+                <Text style={[styles.infoValue, { color: colors.text }]}>{value}</Text>
+            </View>
+        </View>
+    );
 
-                    <Text style={styles.usernameText}>{displayUsername}</Text>
-                    <Text style={styles.roleText}>Miembro Adoptante Activo</Text>
+    return (
+        <SafeAreaView style={[styles.container, { backgroundColor: colors.bg }]}>
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+
+                <View style={[styles.profileHeader, { backgroundColor: colors.card }]}>
+                    <View style={[styles.avatar, { backgroundColor: colors.primary, borderColor: colors.accent }]}>
+                        <Ionicons name="person" size={60} color="#FFFFFF" />
+                    </View>
+                    <Text style={[styles.usernameText, { color: colors.text }]}>{displayUsername}</Text>
+                    <Text style={[styles.roleText, { color: colors.accent }]}>Administrador de la tienda</Text>
                 </View>
 
-                <View style={styles.card}>
-                    <Text style={styles.cardTitle}>Información de Contacto</Text>
-
-                    <View style={styles.infoRow}>
-                        <View style={styles.iconCircle}>
-                            <Ionicons name="mail-outline" size={20} color="#1F2937" />
-                        </View>
-                        <View style={styles.infoTextContainer}>
-                            <Text style={styles.infoLabel}>Correo Electrónico</Text>
-                            <Text style={styles.infoValue}>{STATIC_DATA.email}</Text>
-                        </View>
-                    </View>
-
-                    <View style={styles.infoRow}>
-                        <View style={styles.iconCircle}>
-                            <Ionicons name="call-outline" size={20} color="#1F2937" />
-                        </View>
-                        <View style={styles.infoTextContainer}>
-                            <Text style={styles.infoLabel}>Teléfono / WhatsApp</Text>
-                            <Text style={styles.infoValue}>{STATIC_DATA.phone}</Text>
-                        </View>
-                    </View>
-
-                    <View style={styles.infoRow}>
-                        <View style={styles.iconCircle}>
-                            <Ionicons name="location-outline" size={20} color="#1F2937" />
-                        </View>
-                        <View style={styles.infoTextContainer}>
-                            <Text style={styles.infoLabel}>Ubicación</Text>
-                            <Text style={styles.infoValue}>{STATIC_DATA.location}</Text>
-                        </View>
-                    </View>
+                <View style={[styles.card, { backgroundColor: colors.card }]}>
+                    <Text style={[styles.cardTitle, { color: colors.text }]}>Información de Contacto</Text>
+                    <InfoRow icon="mail-outline" label="Correo Electrónico" value={STATIC_DATA.email} />
+                    <InfoRow icon="call-outline" label="Teléfono / WhatsApp" value={STATIC_DATA.phone} />
+                    <InfoRow icon="location-outline" label="Ubicación" value={STATIC_DATA.location} />
                 </View>
 
                 <TouchableOpacity style={styles.logoutButton} onPress={handleLogout} activeOpacity={0.8}>
@@ -96,63 +69,34 @@ const ProfileScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#FFF3C9', 
-    },
-    scrollContent: {
-        padding: 20,
-        paddingTop: 30,
-        paddingBottom: 40,
-    },
+    container: { flex: 1 },
+    scrollContent: { padding: 20, paddingTop: 30, paddingBottom: 40 },
     profileHeader: {
-        backgroundColor: '#FFFFFF',
-        borderRadius: 24, 
+        borderRadius: 24,
         alignItems: 'center',
         paddingVertical: 30,
         paddingHorizontal: 20,
         marginBottom: 20,
-        elevation: 3, 
+        elevation: 3,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.06,
         shadowRadius: 10,
-    },
-    avatarWrapper: {
-        position: 'relative',
-        marginBottom: 16,
     },
     avatar: {
         width: 110,
         height: 110,
         borderRadius: 55,
         borderWidth: 4,
-        borderColor: '#A3D9C9', 
+        borderColor: '#893172',
+        backgroundColor: '#213885',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 16,
     },
-    onlineBadge: {
-        position: 'absolute',
-        bottom: 2,
-        right: 6,
-        width: 22,
-        height: 22,
-        borderRadius: 11,
-        backgroundColor: '#A3D9C9', 
-        borderWidth: 3,
-        borderColor: '#FFFFFF',
-    },
-    usernameText: {
-        fontSize: 24,
-        fontWeight: '800',
-        color: '#1F2937', 
-        marginBottom: 4,
-    },
-    roleText: {
-        fontSize: 15,
-        color: '#73BCA6', 
-        fontWeight: '600',
-    },
+    usernameText: { fontSize: 24, fontWeight: '800', marginBottom: 4 },
+    roleText: { fontSize: 15, color: '#893172', fontWeight: '600' },
     card: {
-        backgroundColor: '#FFFFFF',
         borderRadius: 24,
         padding: 22,
         marginBottom: 24,
@@ -162,58 +106,29 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.06,
         shadowRadius: 10,
     },
-    cardTitle: {
-        fontSize: 18,
-        fontWeight: '700',
-        color: '#1F2937',
-        marginBottom: 20,
-    },
-    infoRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 18,
-    },
+    cardTitle: { fontSize: 18, fontWeight: '700', marginBottom: 20 },
+    infoRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 18 },
     iconCircle: {
         width: 46,
         height: 46,
         borderRadius: 23,
-        backgroundColor: '#E6F4F1', 
+        backgroundColor: '#E3D3C3',
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 16,
     },
-    infoTextContainer: {
-        flex: 1,
-        justifyContent: 'center',
-    },
-    infoLabel: {
-        fontSize: 13,
-        color: '#9CA3AF',
-        marginBottom: 3,
-    },
-    infoValue: {
-        fontSize: 15,
-        color: '#374151',
-        fontWeight: '600',
-    },
+    infoLabel: { fontSize: 13, marginBottom: 3 },
+    infoValue: { fontSize: 15, fontWeight: '600' },
     logoutButton: {
-        backgroundColor: '#EF4444', 
+        backgroundColor: '#893172',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         paddingVertical: 16,
         borderRadius: 16,
         elevation: 2,
-        shadowColor: '#EF4444',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 8,
     },
-    logoutButtonText: {
-        color: '#FFFFFF',
-        fontSize: 17,
-        fontWeight: 'bold',
-    },
+    logoutButtonText: { color: '#FFFFFF', fontSize: 17, fontWeight: 'bold' },
 });
 
 export default ProfileScreen;
