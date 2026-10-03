@@ -6,7 +6,7 @@ export const UserContext = createContext();
 
 // Paleta "Lapis velvet evening": azul lapislázuli, crema, morado y ciruela
 const LIGHT = {
-    bg: '#ECDFD2',       // crema
+    bg: '#F8F9FA',       // crema
     card: '#FBF8F4',
     text: '#081849',     // azul noche
     subtext: '#5E6283',

@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useContext } from 'react';
 import { UserProvider, UserContext } from './frontend/src/context/UserContext';
 import LoginScreen from './frontend/src/screens/LoginScreen';
+import RegisterScreen from './frontend/src/screens/RegisterScreen'; // <--- Importado correctamente como RegisterScreen
 import HomeScreen from './frontend/src/screens/HomeScreen';
 import ProfileScreen from './frontend/src/screens/ProfileScreen';
 import ProductListScreen from './frontend/src/screens/ProductListScreen';
@@ -12,7 +13,6 @@ import SettingsScreen from './frontend/src/screens/SettingsScreen';
 
 const Stack = createNativeStackNavigator();
 
-// Guarda de ruta: sin sesión solo existe Login; con sesión se muestran las demás pantallas
 const Routes = () => {
     const { user, loading, colors } = useContext(UserContext);
 
@@ -29,6 +29,7 @@ const Routes = () => {
                 }}
             >
                 {user ? (
+                    // PANTALLAS EXCLUSIVAS PARA USUARIOS LOGUEADOS
                     <>
                         <Stack.Screen name='Home' component={HomeScreen} options={{ title: 'Moda Store' }} />
                         <Stack.Screen name='Profile' component={ProfileScreen} options={{ title: 'Mi Perfil' }} />
@@ -37,7 +38,17 @@ const Routes = () => {
                         <Stack.Screen name='Settings' component={SettingsScreen} options={{ title: 'Configuración' }} />
                     </>
                 ) : (
-                    <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
+                    // PANTALLAS ACCESIBLES SIN INICIAR SESIÓN (Grupo de Autenticación)
+                    <>
+                        <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
+                        
+                        {/* Movido aquí afuera para que el Login sí pueda navegar al Registro */}
+                        <Stack.Screen 
+                            name="Register" 
+                            component={RegisterScreen} // <--- Corregido el nombre de la variable importada arriba
+                            options={{ headerShown: false }} 
+                        />
+                    </>
                 )}
             </Stack.Navigator>
         </NavigationContainer>

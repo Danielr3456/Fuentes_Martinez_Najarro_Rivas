@@ -20,7 +20,6 @@ const SettingsScreen = () => {
                             <Text style={[styles.optionTitle, { color: colors.text }]}>Modo oscuro</Text>
                             <Text style={[styles.optionSubtitle, { color: colors.subtext }]}>Se guarda en AsyncStorage</Text>
                         </View>
-                        {/* La preferencia se persiste en AsyncStorage (ver UserContext) */}
                         <Switch
                             trackColor={{ false: '#CCCACC', true: colors.accent }}
                             thumbColor="#FFFFFF"

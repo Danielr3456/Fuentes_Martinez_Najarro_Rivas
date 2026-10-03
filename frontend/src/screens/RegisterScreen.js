@@ -1,45 +1,39 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native'; 
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
 import { UserContext } from '../context/UserContext';
 
-const LoginScreen = () => {
+const RegisterScreen = () => {
     const navigation = useNavigation(); 
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [focused, setFocused] = useState(null); 
     const { login, colors } = useContext(UserContext);
 
+    // LÓGICA DE REGISTRO INTEGRADA
+    const handleRegister = async () => {
+        if (!username || !password || !confirmPassword) {
+            alert("Debe completar todos los campos");
+            return;
+        }
 
-    useEffect(() => {
-        const checkToken = async () => {
-            const token = await AsyncStorage.getItem('token');
-            //if (token) {
-                // Si ya existe sesión previa, salta automáticamente al Main
-                //navigation.replace('Main');
-            //}
-        };
-        checkToken();
-    }, []);
-
-   
-    const handleLogin = async () => {
-        if (!username || !password) {
-            alert("Debe ingresar usuario y contraseña");
+        if (password !== confirmPassword) {
+            alert("Las contraseñas no coinciden");
             return;
         }
 
         try {
             await AsyncStorage.setItem('user', username);
             await AsyncStorage.setItem('token', 'fake-token-12345');
-            await login(username); 
-            
-            // Redirección directa y segura a la ruta principal
+            await login(username);
+
             navigation.replace('Main');
         } catch (error) {
-            alert("Hubo un error al procesar el inicio de sesión");
+            alert("Hubo un error al registrar el usuario");
         }
     };
 
@@ -59,7 +53,7 @@ const LoginScreen = () => {
                 <Ionicons name="shirt" size={56} color="#FFFFFF" />
             </View>
             <Text style={[styles.brand, { color: colors.text }]}>Moda Store</Text>
-            <Text style={[styles.title, { color: colors.accent }]}>Iniciar Sesión</Text>
+            <Text style={[styles.title, { color: colors.accent }]}>Crear Cuenta</Text>
 
             <TextInput
                 style={inputStyle('user')}
@@ -83,12 +77,23 @@ const LoginScreen = () => {
                 onBlur={() => setFocused(null)}
             />
 
-            <TouchableOpacity style={[styles.button, { backgroundColor: colors.primary }]} onPress={handleLogin}>
-                <Text style={styles.buttonText}>Ingresar</Text>
+            <TextInput
+                style={inputStyle('confirmPass')}
+                onChangeText={setConfirmPassword}
+                value={confirmPassword}
+                placeholder="Confirmar contraseña"
+                placeholderTextColor={colors.subtext}
+                secureTextEntry
+                onFocus={() => setFocused('confirmPass')}
+                onBlur={() => setFocused(null)}
+            />
+
+            <TouchableOpacity style={[styles.button, { backgroundColor: colors.primary }]} onPress={handleRegister}>
+                <Text style={styles.buttonText}>Registrarse</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.linkButton} onPress={() => navigation.navigate('Register')}> 
-                <Text style={[styles.linkText, { color: colors.primary }]}>¿No tienes cuenta? Regístrate aquí</Text> 
+            <TouchableOpacity style={styles.linkButton} onPress={() => navigation.navigate('Login')}>
+                <Text style={[styles.linkText, { color: colors.primary }]}>¿Ya tienes cuenta? Inicia sesión</Text>
             </TouchableOpacity>
         </View>
     );
@@ -143,13 +148,13 @@ const styles = StyleSheet.create({
     },
     linkButton: {
         marginTop: 20,
-        alignSelf: 'center'
+        alignSelf: 'center',
     },
     linkText: {
         fontSize: 16,
+        fontWeight: '500',
         
-        fontWeight: '500'
     }
 });
 
-export default LoginScreen;
+export default RegisterScreen;
