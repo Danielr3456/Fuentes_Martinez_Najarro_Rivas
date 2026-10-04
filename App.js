@@ -81,7 +81,9 @@ const Routes = () => {
                         {/* Las demás pantallas se abren "encima" de las pestañas (Stack normal) */}
                         <Stack.Screen name='ProductList' component={ProductListScreen} options={{ title: 'Catálogo' }} />
                         <Stack.Screen name='ProductForm' component={ProductFormScreen} options={{ title: 'Prenda' }}/>
+                        <Stack.Screen name='Profile' component={ProfileScreen} options={{ title: 'Mi Perfil' }} />
                         <Stack.Screen name='Settings' component={SettingsScreen} options={{ title: 'Configuración' }} />
+
                     </>
                 ) : (
                     // PANTALLAS DE AUTENTICACIÓN

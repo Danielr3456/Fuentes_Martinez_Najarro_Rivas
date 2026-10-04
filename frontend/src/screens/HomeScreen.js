@@ -12,9 +12,6 @@ const HomeScreen = () => {
         navigation.setOptions({
             headerRight: () => (
                 <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={{ marginRight: 16 }}>
-                        <Ionicons name="person" size={24} color="#FFFFFF" />
-                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
                         <Ionicons name="settings-sharp" size={24} color="#FFFFFF" />
                     </TouchableOpacity>

@@ -2,23 +2,26 @@ import React, { useContext } from 'react';
 import { View, Text, StyleSheet, ScrollView, Switch, SafeAreaView, TouchableOpacity} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { UserContext } from '../context/UserContext';
+import { translations } from '../utils/translations';
 
 const SettingsScreen = () => {
     const { darkMode, toggleDarkMode, colors, language, changeLanguage } = useContext(UserContext);
+
+    const t = translations[language];
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: colors.bg }]}>
             <ScrollView contentContainerStyle={styles.scrollContent}>
                 <View style={[styles.card, { backgroundColor: colors.card }]}>
-                    <Text style={[styles.cardSectionTitle, { color: colors.accent }]}>Apariencia</Text>
+                    <Text style={[styles.cardSectionTitle, { color: colors.accent }]}>{t.appearanceTitle}</Text>
 
                     <View style={styles.optionRow}>
                         <View style={[styles.iconCircle, { backgroundColor: colors.soft }]}>
                             <Ionicons name="moon-outline" size={20} color={colors.primary} />
                         </View>
                         <View style={{ flex: 1 }}>
-                            <Text style={[styles.optionTitle, { color: colors.text }]}>Modo oscuro</Text>
-                            <Text style={[styles.optionSubtitle, { color: colors.subtext }]}>Se guarda en AsyncStorage</Text>
+                            <Text style={[styles.optionTitle, { color: colors.text }]}>{t.darkMode}</Text>
+                            <Text style={[styles.optionSubtitle, { color: colors.subtext }]}>{t.darkModeSub}</Text>
                         </View>
                         <Switch
                             trackColor={{ false: '#CCCACC', true: colors.accent }}
@@ -33,8 +36,8 @@ const SettingsScreen = () => {
                             <Ionicons name="language-outline" size={20} color={colors.primary} />
                         </View>
                         <View style={{ flex: 1 }}>
-                            <Text style={[styles.optionTitle, { color: colors.text }]}>Idioma</Text>
-                            <Text style={[styles.optionSubtitle, { color: colors.subtext }]}>Español / English</Text>
+                            <Text style={[styles.optionTitle, { color: colors.text }]}>{t.langTitle}</Text>
+                            <Text style={[styles.optionSubtitle, { color: colors.subtext }]}>{t.langSub}</Text>
                         </View>
                         <View style={styles.langContainer}>
                             <TouchableOpacity 
@@ -54,9 +57,9 @@ const SettingsScreen = () => {
                 </View>
 
                 <View style={[styles.card, { backgroundColor: colors.card }]}>
-                    <Text style={[styles.cardSectionTitle, { color: colors.accent }]}>Acerca de</Text>
+                    <Text style={[styles.cardSectionTitle, { color: colors.accent }]}>{t.aboutTitle}</Text>
                     <Text style={[styles.optionTitle, { color: colors.text }]}>Moda Store</Text>
-                    <Text style={[styles.optionSubtitle, { color: colors.subtext }]}>Versión 1.0.0</Text>
+                    <Text style={[styles.optionSubtitle, { color: colors.subtext }]}>{t.version}</Text>
                 </View>
             </ScrollView>
         </SafeAreaView>
