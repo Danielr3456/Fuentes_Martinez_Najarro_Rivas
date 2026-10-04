@@ -47,12 +47,16 @@ const HomeScreen = () => {
                 <Text style={[styles.cardText, { color: colors.subtext }]}>
                     Consulta, edita y elimina las prendas disponibles en la tienda de moda de forma rápida.
                 </Text>
-                <TouchableOpacity style={[styles.button, { backgroundColor: colors.primary }]} onPress={() => navigation.navigate('ProductList')} activeOpacity={0.8}>
+                
+                <TouchableOpacity 
+                    style={[styles.button, { backgroundColor: colors.primary }]} 
+                    onPress={() => navigation.navigate('ProductList', { filter: 'all' })} 
+                    activeOpacity={0.8}
+                >
                     <Text style={styles.buttonText}>Ver prendas</Text>
                     <Ionicons name="arrow-forward" size={18} color="#fff" />
                 </TouchableOpacity>
             </View>
-
 
             <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
                 <View style={styles.cardHeaderRow}>
@@ -62,7 +66,12 @@ const HomeScreen = () => {
                 <Text style={[styles.cardText, { color: colors.subtext }]}>
                     Registra una prenda nueva rellenando sus especificaciones, precio y cantidad de stock.
                 </Text>
-                <TouchableOpacity style={[styles.button, { backgroundColor: colors.accent }]} onPress={() => navigation.navigate('ProductForm')} activeOpacity={0.8}>
+
+                <TouchableOpacity 
+                    style={[styles.button, { backgroundColor: colors.accent }]} 
+                    onPress={() => navigation.navigate('ProductForm', { action: 'create', productId: null })} 
+                    activeOpacity={0.8}
+                >
                     <Text style={styles.buttonText}>Agregar prenda</Text>
                     <Ionicons name="arrow-forward" size={18} color="#fff" />
                 </TouchableOpacity>
@@ -72,82 +81,20 @@ const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: { 
-        flex: 1, 
-    },
-    contentContainer: { 
-        padding: 20, 
-        paddingBottom: 40 
-    },
-    welcome: { 
-        fontSize: 30, 
-        fontWeight: 'bold', 
-        marginTop: 10
-    },
-    subtitle: {
-        fontSize: 16,
-        marginBottom: 20,
-        fontWeight: '500',
-    },
-    introCard: {
-        borderRadius: 20,
-        padding: 20,
-        marginBottom: 24,
-        borderWidth: 1,
-        borderStyle: 'dashed', 
-    },
-    introTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 8,
-    },
-    introText: {
-        fontSize: 14,
-        lineHeight: 20,
-    },
-    card: {
-        borderRadius: 20,
-        marginBottom: 24,
-        padding: 20,
-        borderWidth: 1,
-        elevation: 4,
-        shadowColor: '#081849',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.06,
-        shadowRadius: 12,
-    },
-    cardHeaderRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 14,
-    },
-    cleanIcon: {
-        marginRight: 10, 
-    },
-    cardTitle: { 
-        fontSize: 18, 
-        fontWeight: 'bold', 
-        letterSpacing: 0.5 
-    },
-    cardText: { 
-        fontSize: 15, 
-        marginBottom: 20, 
-        lineHeight: 22 
-    },
-    button: {
-        borderRadius: 14,
-        height: 48,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-    },
-    buttonText: { 
-        color: '#fff', 
-        fontSize: 16, 
-        fontWeight: 'bold', 
-        marginRight: 6 
-    },
+    container: { flex: 1 },
+    contentContainer: { padding: 20, paddingBottom: 40 },
+    welcome: { fontSize: 30, fontWeight: 'bold', marginTop: 10 },
+    subtitle: { fontSize: 16, marginBottom: 20, fontWeight: '500' },
+    introCard: { borderRadius: 20, padding: 20, marginBottom: 24, borderWidth: 1, borderStyle: 'dashed' },
+    introTitle: { fontSize: 18, fontWeight: 'bold', marginBottom: 8 },
+    introText: { fontSize: 14, lineHeight: 20 },
+    card: { borderRadius: 20, marginBottom: 24, padding: 20, borderWidth: 1, elevation: 4, shadowColor: '#081849', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.06, shadowRadius: 12 },
+    cardHeaderRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 14 },
+    cleanIcon: { marginRight: 10 },
+    cardTitle: { fontSize: 18, fontWeight: 'bold', letterSpacing: 0.5 },
+    cardText: { fontSize: 15, marginBottom: 20, lineHeight: 22 },
+    button: { borderRadius: 14, height: 48, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%' },
+    buttonText: { color: '#fff', fontSize: 16, fontWeight: 'bold', marginRight: 6 },
 });
 
 export default HomeScreen;

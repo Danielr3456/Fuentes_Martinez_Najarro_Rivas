@@ -37,7 +37,7 @@ const LoginScreen = () => {
             await login(username); 
             
             // Redirección directa y segura a la ruta principal
-            navigation.replace('Main');
+            //navigation.replace('Main');
         } catch (error) {
             alert("Hubo un error al procesar el inicio de sesión");
         }
