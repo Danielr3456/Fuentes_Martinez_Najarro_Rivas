@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const KEY_USER = 'usuario';
 const KEY_DARK = 'modoOscuro';
+const KEY_LANG = 'idioma';
 
 // Sesión (simulada): guarda el nombre del usuario logueado
 export const guardarSesion = async (username) => {
@@ -22,7 +23,18 @@ export const leerTema = async () => {
     return (await AsyncStorage.getItem(KEY_DARK)) === '1';
 };
 
+// Preferencia: Idioma
+export const guardarIdioma = async (idioma) => {
+    await AsyncStorage.setItem(KEY_LANG, idioma);
+};
+
+export const leerIdioma = async () => {
+    return await AsyncStorage.getItem(KEY_LANG);
+};
+
 // Logout: limpia todo lo guardado en AsyncStorage
 export const limpiarStorage = async () => {
     await AsyncStorage.clear();
 };
+
+

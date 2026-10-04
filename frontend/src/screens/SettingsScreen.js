@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, ScrollView, Switch, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Switch, SafeAreaView, TouchableOpacity} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { UserContext } from '../context/UserContext';
 
 const SettingsScreen = () => {
-    const { darkMode, toggleDarkMode, colors } = useContext(UserContext);
+    const { darkMode, toggleDarkMode, colors, language, changeLanguage } = useContext(UserContext);
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: colors.bg }]}>
@@ -26,6 +26,30 @@ const SettingsScreen = () => {
                             onValueChange={toggleDarkMode}
                             value={darkMode}
                         />
+                    </View>
+
+                    <View style={[styles.optionRow, { marginTop: 20 }]}>
+                        <View style={[styles.iconCircle, { backgroundColor: colors.soft }]}>
+                            <Ionicons name="language-outline" size={20} color={colors.primary} />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <Text style={[styles.optionTitle, { color: colors.text }]}>Idioma</Text>
+                            <Text style={[styles.optionSubtitle, { color: colors.subtext }]}>Español / English</Text>
+                        </View>
+                        <View style={styles.langContainer}>
+                            <TouchableOpacity 
+                                style={[styles.langButton, language === 'es' && { backgroundColor: colors.accent }]}
+                                onPress={() => changeLanguage('es')}
+                            >
+                                <Text style={[styles.langText, language === 'es' && { color: '#FFF' }]}>ES</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity 
+                                style={[styles.langButton, language === 'en' && { backgroundColor: colors.accent }]}
+                                onPress={() => changeLanguage('en')}
+                            >
+                                <Text style={[styles.langText, language === 'en' && { color: '#FFF' }]}>EN</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
 
@@ -71,6 +95,22 @@ const styles = StyleSheet.create({
     },
     optionTitle: { fontSize: 16, fontWeight: '600' },
     optionSubtitle: { fontSize: 13, marginTop: 2 },
+
+    langContainer: {
+        flexDirection: 'row',
+        gap: 8, // Espacio entre botones
+    },
+    langButton: {
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 12,
+        backgroundColor: '#E5E5E5', // Color base inactivo
+    },
+    langText: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#555',
+    }
 });
 
 export default SettingsScreen;

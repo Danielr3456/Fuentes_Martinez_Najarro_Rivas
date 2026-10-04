@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { guardarSesion, leerSesion, guardarTema, leerTema, limpiarStorage } from '../services/storage';
+import { guardarSesion, leerSesion, guardarTema, leerTema, limpiarStorage, guardarIdioma, leerIdioma } from '../services/storage';
 
 // Contexto global: usuario, tema y funciones de login/logout
 export const UserContext = createContext();
@@ -37,12 +37,20 @@ export const UserProvider = ({ children }) => {
     const [darkMode, setDarkMode] = useState(false);
     const [loading, setLoading] = useState(true); // true mientras se lee AsyncStorage
 
+    const [language, setLanguage] = useState('es');
+
     // Al abrir la app: recuperar sesión y tema guardados
     useEffect(() => {
         const cargar = async () => {
             const username = await leerSesion();
             if (username) setUser({ username });
             setDarkMode(await leerTema());
+
+            const savedLang = await leerIdioma();
+            if (savedLang) {
+                setLanguage(savedLang);
+            }
+
             setLoading(false);
         };
         cargar();
@@ -57,6 +65,7 @@ export const UserProvider = ({ children }) => {
         await limpiarStorage();
         setUser(null);
         setDarkMode(false);
+        setLanguage('es');
     };
 
     const toggleDarkMode = async (value) => {
@@ -64,10 +73,15 @@ export const UserProvider = ({ children }) => {
         await guardarTema(value);
     };
 
+    const changeLanguage = async (newLang) => {
+        setLanguage(newLang);
+        await guardarIdioma(newLang);
+    };
+
     const colors = darkMode ? DARK : LIGHT;
 
     return (
-        <UserContext.Provider value={{ user, login, logout, darkMode, toggleDarkMode, colors, loading }}>
+        <UserContext.Provider value={{ user, login, logout, darkMode, toggleDarkMode, colors, loading, language, changeLanguage }}>
             {children}
         </UserContext.Provider>
     );
